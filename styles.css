@@ -1,0 +1,39 @@
+*{
+   box-sizing:border-box; 
+}
+#Rock, #Paper, #Scissors{
+    width:200px;
+    height:200px;
+    
+}
+.buttons{
+    background-color:none;
+    height: 300px;
+    display:flex;
+    justify-content: space-around;
+
+}
+
+.score{
+    width:100%;
+    display:flex;
+    justify-content: center;
+    gap:300px;
+    font-size: 80px;
+}
+
+#matchOutcomeMessage{
+    width:100%;
+    margin-top:20px;
+    text-align: center;
+    font-size: 80px;
+    font-style: italic;
+
+}
+
+#round{
+    width: 100%;
+    text-align: center;
+    font-size: 40px;
+    margin-bottom: 20px;
+}

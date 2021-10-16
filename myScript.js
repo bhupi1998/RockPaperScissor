@@ -1,3 +1,6 @@
+let playerScore=0;
+let computerScore=0;
+let roundNum=0;
 /************************************************************************************
  * Function: computerPlay()
    -Outputs a random rock paper scissor value 
@@ -44,41 +47,49 @@ function playRound(playerSelection, computerSelection){
     //if statements to determine outcomes. There must be a big brain algorithm outhere instead.
     if(playerSelection == "Rock" && computerSelection =="Scissors"){
         matchOutcomeMessage= "You win! Rock beats scissors.";
+        resultText.textContent=`${matchOutcomeMessage}`;
         pointEarned=1;
     }
     else if(playerSelection == "Rock" && computerSelection =="Rock"){
         matchOutcomeMessage= "It's a tie! Rock cannot beat rock.";
+        resultText.textContent=`${matchOutcomeMessage}`;
         pointEarned=0;
     }
     else if(playerSelection == "Rock" && computerSelection =="Paper"){
         matchOutcomeMessage= "You lose! Paper beats rock.";
+        resultText.textContent=`${matchOutcomeMessage}`;
         pointEarned=-1;
     }
     else if(playerSelection == "Paper" && computerSelection =="Rock"){
         matchOutcomeMessage= "You win! Paper beats rock.";
+        resultText.textContent=`${matchOutcomeMessage}`;
         pointEarned=1;
     }
     else if(playerSelection == "Paper" && computerSelection =="Paper"){
         matchOutcomeMessage= "It's a tie! Paper cannot beat paper.";
+        resultText.textContent=`${matchOutcomeMessage}`;
         pointEarned=0;
     }
     else if(playerSelection == "Paper" && computerSelection =="Scissors"){
         matchOutcomeMessage= "You lose! Scissors beats paper.";
+        resultText.textContent=`${matchOutcomeMessage}`;
         pointEarned=-1;
     }
     else if(playerSelection == "Scissors" && computerSelection =="Rock"){
         matchOutcomeMessage= "You lose!! Rock beats scissors.";
+        resultText.textContent=`${matchOutcomeMessage}`;
         pointEarned=-1;
     }
     else if(playerSelection == "Scissors" && computerSelection =="Paper"){
         matchOutcomeMessage= "You win! Scissors beats paper.";
+        resultText.textContent=`${matchOutcomeMessage}`;
         pointEarned=1;
     }
     else if(playerSelection == "Scissors" && computerSelection =="Scissors"){
         matchOutcomeMessage= "It's a tie! Scissors cannot beat scissors.";
+        resultText.textContent=`${matchOutcomeMessage}`;
         pointEarned=0;
     }
-    console.log(matchOutcomeMessage+"\n");
     //returning score.
     return pointEarned;                                              
 }
@@ -93,34 +104,56 @@ function playRound(playerSelection, computerSelection){
  * Revision:
  ************************************************************************************
 */
-function game(){
-    let playerSelection;
+function game(playerSelection){
     let matchOutcome;
-    let playerScore=0;
-    let computerScore=0;
-    for(let i=0; i<5;i++){
-        console.log(`Round ${i+1}. Fight!\n`);
-        playerSelection=window.prompt("Choose your weapon:");
-        matchOutcome=playRound(playerSelection, computerPlay());
-        //if matchOutcome is 1 then the player won. Add 1 to player score. If it's -1 do the same for the computer. If it's 0 do nothing (it's a tie). If it's 404 indicate there's an error and repeat the round. 
-        if(matchOutcome==1){
-            playerScore++;
-        }
-        else if(matchOutcome==-1){
-            computerScore++;
-        }
-        else if(matchOutcome==404){
-            console.log("invalid selection");
-            i--; //go again
-        }
-        console.log(`Your score: ${playerScore} Opponent: ${computerScore}`);
+    roundNum++;//new round
+    matchOutcome=playRound(playerSelection, computerPlay());
+    if(matchOutcome==1){
+        playerScore++;
+        playerScoreDiv.textContent=`${playerScore}`;
     }
-    if(playerScore>computerScore){
-        console.log("You win!");
+    else if(matchOutcome==-1){
+        computerScore++;
+        pcScoreDiv.textContent=`${computerScore}`;
     }
-    else
-        console.log("You lose!");
+    else if(matchOutcome==404){
+        resultText.textContent="invalid selection";
+        roundNum--; //go again
+    }
+    if(roundNum>=5){
+        if(computerScore>playerScore){
+            resultText.textContent="You lose!";
+        }
+        else if(playerScore>computerScore){
+            resultText.textContent="You win!";
+            
+        }
+        else{
+            resultText.textContent="It's a tie!";
+        }
+        roundNum=0;
+        computerScore=0;
+        playerScore=0;
+        playerScoreDiv.textContent=`${playerScore}`;
+        pcScoreDiv.textContent=`${computerScore}`;
+    }
+    roundDiv.textContent=`Round: ${roundNum}`;
 }
 
-game();
 
+
+
+
+const rockBtn= document.querySelector('#Rock');
+rockBtn.onclick=() => game('rock');
+
+const paperBtn= document.querySelector('#Paper');
+paperBtn.onclick=() => game('paper');
+
+const scissorsBtn= document.querySelector('#Scissors');
+scissorsBtn.onclick=() => game('scissors');
+
+const playerScoreDiv=document.querySelector('#player');
+const pcScoreDiv=document.querySelector('#pc');
+const resultText=document.querySelector('#matchOutcomeMessage');
+const roundDiv=document.querySelector('#round')
